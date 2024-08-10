@@ -53,11 +53,25 @@ app.delete('/api/persons/:id', (request, response) => {
 })
 
 app.post('/api/persons', (request, response) => {
+  console.log('persons before: ', persons)
+
   const person = request.body
+  if (!person.name || !person.number) {
+    return response.status(400).json({ 
+      error: 'name and number must be provided' 
+    })
+  }
+  if (persons.find((p) => p.name === person.name)) {
+    return response.status(400).json({ 
+      error: 'name must be unique' 
+    })
+  }
+
   person.id = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)
   console.log('person to be added: ', person)
   persons = [...persons, person]
   response.send(person)
+  console.log('persons after: ', persons)
 })
 
 const PORT = 3001
