@@ -6,6 +6,14 @@ GET http://localhost:3001/api/persons/1
 ###
 GET http://localhost:3001/api/persons/6
 ###
-DELETE  http://localhost:3001/api/persons/6
+DELETE  http://localhost:3001/api/persons/4
 ###
 DELETE  http://localhost:3001/api/persons/1
+###
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+  "name": "Ben C",
+  "number": "6095776145"
+}

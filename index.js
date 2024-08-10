@@ -48,7 +48,16 @@ app.get('/info', (request, response) => {
 app.delete('/api/persons/:id', (request, response) => {
   const id = request.params.id
   persons = persons.filter(person => person.id !== id)
+  console.log(`persons after deletion of ${id}`, persons)
   response.status(204).end()
+})
+
+app.post('/api/persons', (request, response) => {
+  const person = request.body
+  person.id = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)
+  console.log('person to be added: ', person)
+  persons = [...persons, person]
+  response.send(person)
 })
 
 const PORT = 3001
