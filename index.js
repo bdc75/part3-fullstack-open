@@ -1,6 +1,14 @@
+/*The current backend code can be found on Github, in the branch part3-3. 
+The changes in frontend code are in part3-1 branch of the frontend repository.*/
+
 const express = require('express')
 const app = express()
-app.use(express.json()) 
+app.use(express.json())
+// necessary for being able to deploy frontend with the backend, using the dist folder
+// static bc the frontend is built into a static index.html (which contains script ref to js)
+// it works like this: whenever Express gets an HTTP GET request,
+// it will first check if the dist directory contains a file corresponding to the request's address
+app.use(express.static('dist'))
 
 const cors = require('cors')
 app.use(cors())
