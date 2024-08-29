@@ -78,25 +78,30 @@ app.delete('/api/persons/:id', (request, response) => {
 })
 
 app.post('/api/persons', (request, response) => {
-  console.log('persons before: ', persons)
+  // console.log('persons before: ', persons)
 
-  const person = request.body
-  if (!person.name || !person.number) {
+  const body = request.body
+  if (!body.name || !body.number) {
     return response.status(400).json({ 
       error: 'name and number must be provided' 
     })
   }
-  if (persons.find((p) => p.name === person.name)) {
-    return response.status(400).json({ 
-      error: 'name must be unique' 
-    })
-  }
+  // if (persons.find((p) => p.name === person.name)) {
+  //   return response.status(400).json({ 
+  //     error: 'name must be unique' 
+  //   })
+  // }
 
-  person.id = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)
-  console.log('person to be added: ', person)
-  persons = [...persons, person]
-  response.send(person)
-  console.log('persons after: ', persons)
+  console.log('person to be added: ', body)
+  const person = new PersonModel({
+    name: body.name,
+    number: body.number
+  })
+
+  person.save().then(result => {
+    console.log(`${person.name} saved`)
+    response.json(result)
+  })
 })
 
 const PORT = process.env.PORT || 3001
