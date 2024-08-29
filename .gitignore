@@ -1,1 +1,3 @@
 mongo-helper.js
+/node_modules
+.env

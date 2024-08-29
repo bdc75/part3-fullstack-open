@@ -1,7 +1,10 @@
+require("dotenv").config()
+
 const mongoose = require('mongoose')
 const password = process.argv[2]
-const url = 
-  `mongodb+srv://cardwe11:${password}@cluster0.w1xoa.mongodb.net/phonebookApp?retryWrites=true&w=majority&appName=Cluster0`
+const url = process.env.MONGODB_URI
+console.log(url)
+// `mongodb+srv://cardwe11:aOYZt4qSzpAln1Ql@cluster0.w1xoa.mongodb.net/phonebookApp?retryWrites=true&w=majority&appName=Cluster0`
 mongoose.set('strictQuery',false)
 mongoose.connect(url)
 

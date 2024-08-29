@@ -1,5 +1,6 @@
 /*The current backend code can be found on Github, in the branch part3-3. 
 The changes in frontend code are in part3-1 branch of the frontend repository.*/
+require('dotenv').config()
 
 const express = require('express')
 const app = express()
@@ -13,15 +14,16 @@ app.use(express.static('dist'))
 const cors = require('cors')
 app.use(cors())
 
+const PersonModel = require('./models/person')
+
 
 const morgan = require('morgan')
 // create 'body' token
 morgan.token('body', (req, res) => JSON.stringify(req.body))
 // use morgan and use body token, i.e.  :body
+//tiny format is  :method :url :status :res[content-length] - :response-time ms
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
-
-//tiny format is  :method :url :status :res[content-length] - :response-time ms
 
 
 let persons = [
@@ -48,7 +50,9 @@ let persons = [
 ]
 
 app.get('/api/persons', (request, response) => {
-  response.json(persons)
+  PersonModel.find({}).then(persons => {
+    response.json(persons)
+  })
 })
 
 app.get('/api/persons/:id', (request, response) => {
