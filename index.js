@@ -52,18 +52,26 @@ app.get('/api/persons', (request, response) => {
 })
 
 app.get('/api/persons/:id', (request, response) => {
-  const id = request.params.id
-  const person = persons.find(person => person.id === id)
-  if (person) {
-    response.json(person)
-  } else {
-    response.status(404).end()
-  }
+  const person = PersonModel.findById(request.params.id)
+    .then(result => {
+      if (result) {
+        response.json(result)
+      } else {
+        response.status(404).end()
+      }
+    })
+    .catch(error => {
+      console.log(error)
+      response.status(400).send({ error: 'malformatted id' })
+    })
+  
 })
 
 app.get('/info', (request, response) => {
   response.contentType = "text/html"
-  response.send(`<div>Phonebook has info for ${persons.length} people <br/> ${new Date()} </div>`)
+  const people = PersonModel.find({}).then(result => {
+    response.send(`<div>Phonebook has info for ${result.length} people <br/> ${new Date()} </div>`)
+  })
 })
 
 app.delete('/api/persons/:id', (request, response) => {

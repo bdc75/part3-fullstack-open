@@ -25,3 +25,5 @@ Content-Type: application/json
   "name": "ben",
   "number": "700"
 }
+###
+GET http://localhost:3001/api/persons/66ce8766d7a8895684ecc1b2
