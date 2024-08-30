@@ -15,7 +15,7 @@ Content-Type: application/json
 
 {
   "name": "bla",
-  "number": "0690"
+  "number": "06-90000"
 }
 ###
 PUT http://localhost:3001/api/persons/66ce8766d7a8895684ecc1b1
