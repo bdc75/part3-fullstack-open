@@ -1,30 +1,26 @@
 /*The current backend code can be found on Github, in the branch part3-3. 
 The changes in frontend code are in part3-1 branch of the frontend repository.*/
 require('dotenv').config()
-
 const express = require('express')
 const app = express()
+
+const cors = require('cors')
+const morgan = require('morgan')
+const PersonModel = require('./models/person')
+
+
 app.use(express.json())
 // necessary for being able to deploy frontend with the backend, using the dist folder
 // static bc the frontend is built into a static index.html (which contains script ref to js)
 // it works like this: whenever Express gets an HTTP GET request,
 // it will first check if the dist directory contains a file corresponding to the request's address
 app.use(express.static('dist'))
-
-const cors = require('cors')
 app.use(cors())
-
-const PersonModel = require('./models/person')
-
-
-const morgan = require('morgan')
 // create 'body' token
 morgan.token('body', (req, res) => JSON.stringify(req.body))
 // use morgan and use body token, i.e.  :body
 //tiny format is  :method :url :status :res[content-length] - :response-time ms
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
-
-
 
 let persons = [
   { 
@@ -71,10 +67,20 @@ app.get('/info', (request, response) => {
 })
 
 app.delete('/api/persons/:id', (request, response) => {
-  const id = request.params.id
-  persons = persons.filter(person => person.id !== id)
-  console.log(`persons after deletion of ${id}`, persons)
-  response.status(204).end()
+  PersonModel.findByIdAndDelete(request.params.id)
+    .then(result => {
+      console.log(`deletion result: <${result}>`)
+      response.status(204).end()
+    })
+    .catch(error => {
+      console.log(`deletion error: ${error}`)
+      return next(error)
+    })
+  
+  // const id = request.params.id
+  // persons = persons.filter(person => person.id !== id)
+  // console.log(`persons after deletion of ${id}`, persons)
+  // response.status(204).end()
 })
 
 app.post('/api/persons', (request, response) => {
@@ -103,6 +109,14 @@ app.post('/api/persons', (request, response) => {
     response.json(result)
   })
 })
+
+const errorHandler = (error, request, response, next) => {
+  console.error(`${error.name}: ${error.message}`)
+  next(error)
+}
+
+// handler of requests with result to errors
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
