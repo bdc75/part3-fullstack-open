@@ -1,6 +1,8 @@
 /*The current backend code can be found on Github, in the branch part3-3. 
 The changes in frontend code are in part3-1 branch of the frontend repository.*/
-
+console.log(process.env)
+console.log('------')
+console.log(process.env.MONGODB_URI)
 
 // require('dotenv').config()
 
