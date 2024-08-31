@@ -1,6 +1,9 @@
 /*The current backend code can be found on Github, in the branch part3-3. 
 The changes in frontend code are in part3-1 branch of the frontend repository.*/
-require('dotenv').config()
+
+
+// require('dotenv').config()
+
 const express = require('express')
 const app = express()
 
