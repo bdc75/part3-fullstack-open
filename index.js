@@ -14,13 +14,13 @@ const cors = require('cors')
 const morgan = require('morgan')
 const PersonModel = require('./models/person')
 
-
-app.use(express.json())
 // necessary for being able to deploy frontend with the backend, using the dist folder
 // static bc the frontend is built into a static index.html (which contains script ref to js)
 // it works like this: whenever Express gets an HTTP GET request,
 // it will first check if the dist directory contains a file corresponding to the request's address
 app.use(express.static('dist'))
+app.use(express.json())
+
 app.use(cors())
 // create 'body' token
 morgan.token('body', (req, res) => JSON.stringify(req.body))
