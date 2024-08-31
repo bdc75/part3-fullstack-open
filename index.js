@@ -5,7 +5,7 @@ The changes in frontend code are in part3-1 branch of the frontend repository.*/
 // console.log('------')
 // console.log(process.env.MONGODB_URI)
 
-require('dotenv').config()
+// require('dotenv').config()
 
 const express = require('express')
 const app = express()
