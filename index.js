@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 require('dotenv').config()
 
-app.use(express.static('dist'))
+// app.use(express.static('dist'))
 
 const cors = require('cors')
 // const morgan = require('morgan')
@@ -135,6 +135,6 @@ app.use(unknownEndpoint)
 app.use(errorHandler)
 
 const PORT = process.env.PORT || 3001
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
