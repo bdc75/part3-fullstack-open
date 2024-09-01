@@ -14,10 +14,9 @@ const cors = require('cors')
 // it will first check if the dist directory contains a file corresponding to the request's address
 
 
-
+app.use(cors())
 app.use(express.json())
 
-app.use(cors())
 // morgan.token('body', (req, res) => JSON.stringify(req.body))
 // app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
