@@ -1,4 +1,8 @@
 mongo-helper.js
-/node_modules
+node_modules
 .env
 mongo.js
+dist
+delete
+requests
+index-commit11.js
