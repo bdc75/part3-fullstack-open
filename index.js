@@ -1,14 +1,8 @@
-/*The current backend code can be found on Github, in the branch part3-3. 
-The changes in frontend code are in part3-1 branch of the frontend repository.*/
-
-// console.log(process.env)
-// console.log('------')
-// console.log(process.env.MONGODB_URI)
-
-// require('dotenv').config()
-
 const express = require('express')
 const app = express()
+require('dotenv').config()
+
+app.use(express.static('dist'))
 
 const cors = require('cors')
 const morgan = require('morgan')
@@ -18,7 +12,9 @@ const PersonModel = require('./models/person')
 // static bc the frontend is built into a static index.html (which contains script ref to js)
 // it works like this: whenever Express gets an HTTP GET request,
 // it will first check if the dist directory contains a file corresponding to the request's address
-app.use(express.static('dist'))
+
+
+
 app.use(express.json())
 
 app.use(cors())
@@ -28,28 +24,9 @@ morgan.token('body', (req, res) => JSON.stringify(req.body))
 //tiny format is  :method :url :status :res[content-length] - :response-time ms
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
-let persons = [
-  { 
-    "id": "1",
-    "name": "Arto Hellas", 
-    "number": "040-123456"
-  },
-  { 
-    "id": "2",
-    "name": "Ada Lovelace", 
-    "number": "39-44-5323523"
-  },
-  { 
-    "id": "3",
-    "name": "Dan Abramov", 
-    "number": "12-43-234345"
-  },
-  { 
-    "id": "4",
-    "name": "Mary Poppendieck", 
-    "number": "39-23-6423122"
-  }
-]
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
 
 app.get('/api/persons', (request, response) => {
   PersonModel.find({}).then(persons => {
@@ -151,6 +128,7 @@ const errorHandler = (error, request, response, next) => {
   next(error)
 }
 
+app.use(unknownEndpoint)
 // handler of requests with result to errors
 app.use(errorHandler)
 
