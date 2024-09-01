@@ -16,7 +16,6 @@
   "bugs": {
     "url": "https://github.com/bdc75/part3-fullstack-open/issues"
   },
-  "homepage": "https://github.com/bdc75/part3-fullstack-open#readme",
   "description": "",
   "dependencies": {
     "cors": "^2.8.5",
