@@ -5,7 +5,7 @@ require('dotenv').config()
 app.use(express.static('dist'))
 
 const cors = require('cors')
-const morgan = require('morgan')
+// const morgan = require('morgan')
 // const PersonModel = require('./models/person')
 
 // necessary for being able to deploy frontend with the backend, using the dist folder
@@ -18,11 +18,8 @@ const morgan = require('morgan')
 app.use(express.json())
 
 app.use(cors())
-// create 'body' token
-morgan.token('body', (req, res) => JSON.stringify(req.body))
-// use morgan and use body token, i.e.  :body
-//tiny format is  :method :url :status :res[content-length] - :response-time ms
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
+// morgan.token('body', (req, res) => JSON.stringify(req.body))
+// app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
